@@ -1,0 +1,58 @@
+const undoBtn = document.getElementById('undoBtn');
+const redoBtn = document.getElementById('redoBtn');
+
+let history = [{}]; // 儲存每個頁面的狀態
+let historyIndex = 0;
+
+function saveState() {
+    // 移除目前之後的歷史紀錄
+    history = history.slice(0, historyIndex + 1);
+
+    const currentState = {};
+    pages.forEach((page, index) => {
+        currentState[index] = page.innerHTML;
+    });
+
+    history.push(currentState);
+    historyIndex++;
+    updateUndoRedoButtons();
+}
+
+function restoreState(state) {
+    Object.keys(state).forEach(pageIndex => {
+        if (pages[pageIndex]) {
+            pages[pageIndex].innerHTML = state[pageIndex];
+             // 重新綁定拖曳功能
+            pages[pageIndex].querySelectorAll('div[contenteditable="true"]').forEach(el => makeDraggable(el));
+        }
+    });
+}
+
+
+function updateUndoRedoButtons() {
+    undoBtn.disabled = historyIndex <= 0;
+    redoBtn.disabled = historyIndex >= history.length - 1;
+}
+
+
+// 當有變動時就儲存狀態 (簡化版：在放開滑鼠時儲存)
+document.addEventListener('mouseup', saveState);
+
+undoBtn.addEventListener('click', () => {
+    if (historyIndex > 0) {
+        historyIndex--;
+        restoreState(history[historyIndex]);
+        updateUndoRedoButtons();
+    }
+});
+
+redoBtn.addEventListener('click', () => {
+    if (historyIndex < history.length - 1) {
+        historyIndex++;
+        restoreState(history[historyIndex]);
+        updateUndoRedoButtons();
+    }
+});
+
+// 初始呼叫
+updateUndoRedoButtons();
