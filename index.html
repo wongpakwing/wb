@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>我的互動式白板 (修正版)</title>
+    <title>我的互動式白板 (穩定版)</title>
     <style>
         /* --- 整體樣式 --- */
         body {
@@ -13,7 +13,6 @@
             align-items: center;
             margin: 0;
             padding: 15px;
-            /* 移除了 user-select: none; 這是導致問題的關鍵 */
         }
         h1 { color: #333; }
 
@@ -26,8 +25,4 @@
         }
         .controls button, .controls label {
             border: 1px solid #ccc; background-color: #f8f8f8; padding: 8px 12px;
-            border-radius: 5px; cursor: pointer; font-size: 14px;
-            transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
-            user-select: none; /* 將 user-select: none; 移到按鈕和標籤上 */
-        }
-        .controls button:hover { background-color: #e9e9
+            border
